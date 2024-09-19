@@ -1,8 +1,11 @@
-
-
+//Clearbss completed
 //systimer completed
 
+//This part is completed and should work :)
+
 char glbl[128];
+
+unsigned char global_variable;
 
 char huge_array[8192];
 
@@ -19,6 +22,10 @@ int wait_timer() {
     return wait_count;
 }
 
+void setGlobalValue() {
+    global_variable = 0x12345678;
+}
+
 void kernel_main() {
 
     extern int __bss_start, __bss_end;
@@ -26,11 +33,15 @@ void kernel_main() {
 
     bssstart = &__bss_start;
     bssend = &__bss_end;
+    
+    //char *begin_bss = &__bss_start;
+    //char *end_bss = &__bss_end;
+
+    for (char *ptr = bssstart; ptr < bssend; ptr++) {
+        *ptr = 0x0;
+    }
 
     unsigned long count = get_timer_count();    
     unsigned long wait_count = wait_timer();
-    
-    while(bssstart < bssend){
-        *bssstart++ = 0;
-    }
+        
 }
