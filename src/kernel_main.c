@@ -43,7 +43,7 @@ void kernel_main() {
     //char *begin_bss = &__bss_start;
     //char *end_bss = &__bss_end;
 
-    esp_printf(serial_putc, "Current Execution Level is %d\r\n", getEL());
+    esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
     for (char *ptr = bssstart; ptr < bssend; ptr++) {
         *ptr = 0x0;
