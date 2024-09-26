@@ -3,6 +3,8 @@
 
 //This part is completed and should work :)
 
+#include "serial.h"
+
 char glbl[128];
 
 unsigned char global_variable;
@@ -26,6 +28,10 @@ void setGlobalValue() {
     global_variable = 0x12345678;
 }
 
+int getEL() {
+    return 1;
+}
+
 void kernel_main() {
 
     extern int __bss_start, __bss_end;
@@ -37,11 +43,13 @@ void kernel_main() {
     //char *begin_bss = &__bss_start;
     //char *end_bss = &__bss_end;
 
+    esp_printf(serial_putc, "Current Execution Level is %d\r\n", getEL());
+
     for (char *ptr = bssstart; ptr < bssend; ptr++) {
         *ptr = 0x0;
     }
 
     unsigned long count = get_timer_count();    
     unsigned long wait_count = wait_timer();
-        
+    
 }
