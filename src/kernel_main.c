@@ -4,6 +4,7 @@
 //This part is completed and should work :)
 
 #include "serial.h"
+#include "page.h"
 
 char glbl[128];
 
@@ -45,6 +46,10 @@ void kernel_main() {
 
     esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
+    struct ppage *allocated_pages = allocate_physical_pages(4); 
+    struct ppage *more_allocated_pages = allocate_physical_pages(2);
+    free_physical_pages(allocated_pages);
+    
     for (char *ptr = bssstart; ptr < bssend; ptr++) {
         *ptr = 0x0;
     }
