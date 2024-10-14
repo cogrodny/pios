@@ -44,6 +44,8 @@ void kernel_main() {
     //char *begin_bss = &__bss_start;
     //char *end_bss = &__bss_end;
 
+    mmu_on();
+
     esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
     struct ppage *allocated_pages = allocate_physical_pages(4); 
