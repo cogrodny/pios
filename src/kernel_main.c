@@ -5,8 +5,9 @@
 
 #include "serial.h"
 #include "page.h"
+#include "mmu.h"
 
-char glbl[128];
+/*char glbl[128];
 
 unsigned char global_variable;
 
@@ -31,32 +32,39 @@ void setGlobalValue() {
 
 int getEL() {
     return 1;
-}
+}*/
+
+extern struct table_descriptor_stage1 L1table[512];
 
 void kernel_main() {
+    
+    //extern int __bss_start, __bss_end;
+    //char *bssstart, *bssend;
 
-    extern int __bss_start, __bss_end;
-    char *bssstart, *bssend;
-
-    bssstart = &__bss_start;
-    bssend = &__bss_end;
+    //bssstart = &__bss_start;
+    //bssend = &__bss_end;
     
     //char *begin_bss = &__bss_start;
     //char *end_bss = &__bss_end;
 
-    mmu_on();
-
-    esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
-
-    struct ppage *allocated_pages = allocate_physical_pages(4); 
-    struct ppage *more_allocated_pages = allocate_physical_pages(2);
-    free_physical_pages(allocated_pages);
+    mapPages((void *)0x00000000, (void *)0x00000000);
     
-    for (char *ptr = bssstart; ptr < bssend; ptr++) {
-        *ptr = 0x0;
-    }
+    loadPageTable(L1table);	
 
-    unsigned long count = get_timer_count();    
-    unsigned long wait_count = wait_timer();
+    char* test = 0x800000;
+    *test = 1;
+
+    //esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
+
+    //struct ppage *allocated_pages = allocate_physical_pages(4); 
+    //struct ppage *more_allocated_pages = allocate_physical_pages(2);
+    //free_physical_pages(allocated_pages);
+    
+    //for (char *ptr = bssstart; ptr < bssend; ptr++) {
+        //*ptr = 0x0;
+    //}
+
+    //unsigned long count = get_timer_count();    
+    //unsigned long wait_count = wait_timer();
     
 }
