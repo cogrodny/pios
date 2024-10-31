@@ -19,6 +19,9 @@ OBJS = \
 	serial.o \
 	page.o \
 	mmu.o \
+	sd.o \
+	fat.o \
+
 
 OBJ = $(patsubst %,$(ODIR)/%,$(OBJS))
 
@@ -63,4 +66,5 @@ rootfs.img:
 	sudo mkdir /mnt/disk/bin
 	sudo mkdir /mnt/disk/etc
 	sudo umount /mnt/disk
-
+	sudo bash -c "echo test > /mnt/disk/test"
+	sudo umont /mnt/disk

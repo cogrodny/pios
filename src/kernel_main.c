@@ -6,6 +6,7 @@
 #include "serial.h"
 #include "page.h"
 #include "mmu.h"
+#include "fat.h"
 
 /*char glbl[128];
 
@@ -34,7 +35,7 @@ int getEL() {
     return 1;
 }*/
 
-extern struct table_descriptor_stage1 L1table[512];
+//extern struct table_descriptor_stage1 L1table[512];
 
 void kernel_main() {
     
@@ -47,12 +48,12 @@ void kernel_main() {
     //char *begin_bss = &__bss_start;
     //char *end_bss = &__bss_end;
 
-    mapPages((void *)0x00000000, (void *)0x00000000);
+    //mapPages((void *)0x00000000, (void *)0x00000000);
     
-    loadPageTable(L1table);	
+    //loadPageTable(L1table);	
 
-    char* test = 0x800000;
-    *test = 1;
+    //char* test = 0x800000;
+    //*test = 1;
 
     //esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
@@ -67,4 +68,10 @@ void kernel_main() {
     //unsigned long count = get_timer_count();    
     //unsigned long wait_count = wait_timer();
     
+    char buf[1024];
+    int n = 1024;
+
+    fatOpen("TESTFILETXT");
+    fatRead(buf, n, fileOpen("TESTFILETXT"));    
+
 }
